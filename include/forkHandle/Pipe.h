@@ -1,9 +1,16 @@
-//
-// Created by adiog on 12/18/16.
-//
+// This file is a part of cpp-thread project.
+// Copyright (c) 2016 Aleksander Gajewski <adiog@brainfuck.pl>.
 
 #ifndef CPP_THREAD_PIPE_H
 #define CPP_THREAD_PIPE_H
+
+#include <stdexcept>
+#include "FileDescriptor.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+
 class Pipe {
 public:
     enum class Indicator : unsigned int {
@@ -16,7 +23,6 @@ public:
         }
         hasOwnershipOfFileDescriptorFlag[static_cast<unsigned int>(Indicator::Read)] = true;
         hasOwnershipOfFileDescriptorFlag[static_cast<unsigned int>(Indicator::Write)] = true;
-        std::cout << '[' << inputOutputFileDescriptor[0] << ',' << inputOutputFileDescriptor[1] << ']' << std::endl;
     }
 
     Pipe(const Pipe&) = delete;
@@ -63,6 +69,5 @@ private:
     bool hasOwnershipOfFileDescriptorFlag[2] = {false, false};
     FileDescriptor inputOutputFileDescriptor[2];
 };
-
 
 #endif //CPP_THREAD_PIPE_H

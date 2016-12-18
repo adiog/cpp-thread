@@ -4,6 +4,9 @@
 #ifndef CPP_THREAD_FILEDESCRIPTORINPUTREADERSTREAM_H
 #define CPP_THREAD_FILEDESCRIPTORINPUTREADERSTREAM_H
 
+#include <memory>
+#include "FileDescriptorStream.h"
+
 class FileDescriptorInputReaderStream : public FileDescriptorStream {
 public:
     FileDescriptorInputReaderStream(std::shared_ptr<FileDescriptorOwner> fileDescriptorOwner)
@@ -11,7 +14,6 @@ public:
     }
 
     FileDescriptorInputReaderStream &operator>>(char &character) {
-        std::cout << "Read from: " << fileDescriptor << std::endl;
         if(read(fileDescriptor, &character, 1U) != 1U) {
             throw std::runtime_error("");
         };

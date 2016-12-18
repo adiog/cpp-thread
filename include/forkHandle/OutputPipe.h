@@ -1,9 +1,9 @@
-//
-// Created by adiog on 12/18/16.
-//
+// This file is a part of cpp-thread project.
+// Copyright (c) 2016 Aleksander Gajewski <adiog@brainfuck.pl>.
 
 #ifndef CPP_THREAD_OUTPUTPIPE_H
 #define CPP_THREAD_OUTPUTPIPE_H
+
 
 class OutputPipe {
 public:
@@ -19,6 +19,5 @@ public:
 private:
     std::shared_ptr<FileDescriptorOwner> fileDescriptorOwner;
 };
-
 
 #endif //CPP_THREAD_OUTPUTPIPE_H

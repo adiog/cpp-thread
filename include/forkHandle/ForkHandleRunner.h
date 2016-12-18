@@ -1,10 +1,36 @@
 // This file is a part of cpp-thread project.
 // Copyright (c) 2016 Aleksander Gajewski <adiog@brainfuck.pl>.
 
-#ifndef CPP_THREAD_FORKHANDLEBUILDER_H
-#define CPP_THREAD_FORKHANDLEBUILDER_H
+#ifndef CPP_THREAD_FORKHANDLERUNNER_H
+#define CPP_THREAD_FORKHANDLERUNNER_H
 
-class ForkHandleBuilder{
+#include "ProcessFunction.h"
+#include "Pipe.h"
+#include "InputPipe.h"
+#include "OutputPipe.h"
+#include "FileDescriptorInputReaderStream.h"
+#include "FileDescriptorOutputWriterStream.h"
+#include "ForkHandle.h"
+#include <unistd.h>
+
+
+class ForkHandleRunner{
+public:
+    static ForkHandle runForked(ProcessFunction processFunction) {
+        Pipe parentToChildPipe;
+        Pipe childToParentPipe;
+
+        pid_t child_pid = doFork();
+
+        if (isChild(child_pid)) {
+            int returnCode = execute_child_process(processFunction, std::move(parentToChildPipe), std::move(childToParentPipe));
+            _exit(returnCode);
+        } else {
+            return ForkHandle(child_pid, std::move(parentToChildPipe), std::move(childToParentPipe));
+        }
+    }
+
+private:
     static bool isChild(pid_t child_pid) {
         return child_pid == 0;
     }
@@ -32,20 +58,6 @@ class ForkHandleBuilder{
         return processFunction(inputReaderStream, outputWriterStream);
     }
 
-    static ForkHandle runForked(ProcessFunction processFunction) {
-        Pipe parentToChildPipe;
-        Pipe childToParentPipe;
-
-        pid_t child_pid = doFork();
-
-        if (isChild(child_pid)) {
-            int returnCode = execute_child_process(processFunction, std::move(parentToChildPipe), std::move(childToParentPipe));
-            _exit(returnCode);
-        } else {
-            return ParentProcess(child_pid, std::move(parentToChildPipe), std::move(childToParentPipe));
-        }
-    }
 };
 
-
-#endif //CPP_THREAD_FORKHANDLEBUILDER_H
+#endif //CPP_THREAD_FORKHANDLERUNNER_H

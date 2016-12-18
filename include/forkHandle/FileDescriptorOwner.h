@@ -4,6 +4,12 @@
 #ifndef CPP_THREAD_FILEDESCRIPTOROWNER_H
 #define CPP_THREAD_FILEDESCRIPTOROWNER_H
 
+#include "FileDescriptor.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+
 class FileDescriptorOwner {
 public:
     FileDescriptorOwner(FileDescriptor fileDescriptor)
