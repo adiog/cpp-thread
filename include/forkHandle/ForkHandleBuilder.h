@@ -1,16 +1,15 @@
-//
-// Created by adiog on 12/18/16.
-//
+// This file is a part of cpp-thread project.
+// Copyright (c) 2016 Aleksander Gajewski <adiog@brainfuck.pl>.
 
 #ifndef CPP_THREAD_FORKHANDLEBUILDER_H
 #define CPP_THREAD_FORKHANDLEBUILDER_H
 
-namespace ForkHandle {
-    bool isChild(pid_t child_pid) {
+class ForkHandleBuilder{
+    static bool isChild(pid_t child_pid) {
         return child_pid == 0;
     }
 
-    int doFork() {
+    static int doFork() {
         pid_t child_pid = fork();
 
         if (child_pid == -1) {
@@ -20,7 +19,7 @@ namespace ForkHandle {
         return child_pid;
     }
 
-    int execute_child_process(
+    static int execute_child_process(
             ProcessFunction processFunction,
             Pipe &&parentToChildPipe,
             Pipe &&childToParentPipe
@@ -33,7 +32,7 @@ namespace ForkHandle {
         return processFunction(inputReaderStream, outputWriterStream);
     }
 
-    ParentProcess runForked(ProcessFunction processFunction) {
+    static ForkHandle runForked(ProcessFunction processFunction) {
         Pipe parentToChildPipe;
         Pipe childToParentPipe;
 
@@ -46,6 +45,7 @@ namespace ForkHandle {
             return ParentProcess(child_pid, std::move(parentToChildPipe), std::move(childToParentPipe));
         }
     }
+};
 
 
 #endif //CPP_THREAD_FORKHANDLEBUILDER_H
