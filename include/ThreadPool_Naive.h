@@ -20,7 +20,7 @@ std::function<void(Args &&...args)> ThreadPoolTask(
             conditionVariable.wait(aFreeSlotsLock, [&]() { return freeSlots > 0; });
             freeSlots--;
         }
-        std::thread{std::forward<Task>(task), std::forward<Args>(args)...}.join();
+        task(std::forward<Args>(args)...);
         {
             std::unique_lock<std::mutex> aFreeSlotsLock(mutex);
             freeSlots++;
@@ -41,7 +41,7 @@ class ThreadPool
     template<typename Task, typename... Args>
     void push_back(Task &&task, Args &&...args)
     {
-        auto aThreadPoolTask = ThreadPoolTask<Task&&, Args&&...>(
+        auto aThreadPoolTask = ThreadPoolTask<Task, Args...>(
                 std::forward<Task>(task),
                 conditionVariable,
                 threadPoolMutex,
