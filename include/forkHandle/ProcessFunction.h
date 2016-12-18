@@ -8,6 +8,7 @@
 #include "forkHandle/FileDescriptorInputReaderStream.h"
 #include "forkHandle/FileDescriptorOutputWriterStream.h"
 
+
 using ProcessFunction = std::function<int(FileDescriptorInputReaderStream,
                                           FileDescriptorOutputWriterStream)>;
 

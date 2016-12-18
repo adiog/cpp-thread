@@ -7,6 +7,7 @@
 #include <memory>
 #include "FileDescriptorStream.h"
 
+
 class FileDescriptorInputReaderStream : public FileDescriptorStream {
 public:
     FileDescriptorInputReaderStream(std::shared_ptr<FileDescriptorOwner> fileDescriptorOwner)

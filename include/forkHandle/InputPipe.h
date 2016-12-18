@@ -8,6 +8,7 @@
 #include "Pipe.h"
 #include "FileDescriptorOwner.h"
 
+
 class InputPipe {
 public:
     InputPipe(Pipe &&pipe)
