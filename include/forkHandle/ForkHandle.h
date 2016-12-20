@@ -26,6 +26,8 @@ struct ForkHandle {
 
     ~ForkHandle() {
         kill(child_pid, SIGTERM);
+        int status;
+        (void)waitpid(pid, &status, 0);
     }
 
     const pid_t child_pid;

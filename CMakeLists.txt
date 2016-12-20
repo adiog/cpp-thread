@@ -4,6 +4,7 @@ project(cpp_thread)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(include)
 
 SET(PROJECT_LIBRARIES "")
 
@@ -42,3 +43,4 @@ FILE(GLOB_RECURSE PROJECT_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/test/ **.cc)
 
 ADD_EXECUTABLE(mainTest ${PROJECT_TESTS})
 TARGET_LINK_LIBRARIES(mainTest ${PROJECT_LIBRARIES} gtest pthread)
+

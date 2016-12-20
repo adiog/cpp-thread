@@ -26,7 +26,7 @@ std::function<void(int)> aThreadFunction =
 }
 TEST_F(ThreadPoolTestSuite, SamplePool)
 {
-    TP::ThreadPool threadPool{6};
+    Naive::ThreadPool threadPool{6};
 
     for(auto i : xrange(30))
     {

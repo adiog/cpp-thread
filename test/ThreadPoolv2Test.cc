@@ -26,7 +26,7 @@ std::function<void(int)> aThreadFunction =
 }
 TEST_F(ThreadPoolv2TestSuite, SamplePool)
 {
-    ThreadPool threadPool{2};
+    WorkersFixedSet::ThreadPool threadPool{2};
 
     for(auto i : xrange(10))
     {
