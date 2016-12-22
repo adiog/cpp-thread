@@ -1,0 +1,16 @@
+#ifndef __IMPLICIT_FUTURE__
+#define __IMPLICIT_FUTURE__
+
+#include <future>
+
+
+template<typename T>
+class implicit_future {
+public:
+    implicit_future(std::future<T> &&future) : future(std::move(future)) {}
+    operator T() {return future.get();}
+private:
+    std::future<T> future;
+};
+
+#endif
