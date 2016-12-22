@@ -24,6 +24,7 @@ public:
 
         if (isChild(child_pid)) {
             int returnCode = execute_child_process(processFunction, std::move(parentToChildPipe), std::move(childToParentPipe));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100U));
             _exit(returnCode);
         } else {
             return ForkHandle(child_pid, std::move(parentToChildPipe), std::move(childToParentPipe));

@@ -6,16 +6,25 @@
 
 #include <memory>
 #include "FileDescriptorStream.h"
+#include <stdio.h>
 
 
 class FileDescriptorInputReaderStream : public FileDescriptorStream {
 public:
     FileDescriptorInputReaderStream(std::shared_ptr<FileDescriptorOwner> fileDescriptorOwner)
-            : FileDescriptorStream(fileDescriptorOwner) {
+            : FileDescriptorStream(fileDescriptorOwner, "r")
+    {
     }
 
     FileDescriptorInputReaderStream &operator>>(char &character) {
         if(read(fileDescriptor, &character, 1U) != 1U) {
+            throw std::runtime_error("");
+        };
+        return *this;
+    }
+
+    FileDescriptorInputReaderStream &operator>>(int &integer) {
+        if(fscanf(file, "%d", &integer) == -1) {
             throw std::runtime_error("");
         };
         return *this;

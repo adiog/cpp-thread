@@ -4,6 +4,8 @@
 #ifndef CPP_THREAD_FORKHANDLE_H
 #define CPP_THREAD_FORKHANDLE_H
 
+#include <thread>
+#include <chrono>
 #include <signal.h>
 #include "forkHandle/Pipe.h"
 #include "forkHandle/InputPipe.h"
@@ -25,12 +27,25 @@ struct ForkHandle {
     }
 
     ~ForkHandle() {
-        kill(child_pid, SIGTERM);
-        int status;
-        (void)waitpid(pid, &status, 0);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000U));
+        if (isRunning()) {
+            std::cout << "Child running... waiting 1s..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000U));
+            kill(child_pid, SIGTERM);
+            (void) waitpid(child_pid, &status, 0);
+        }
+        if ( WIFEXITED(status) ) {
+            int exitStatus = WEXITSTATUS(status);
+            std::cout << "Child exit with exit status " << exitStatus << std::endl;
+        }
+    }
+
+    bool isRunning() {
+        (void) waitpid(child_pid, &status, WNOHANG);
     }
 
     const pid_t child_pid;
+    int status;
 
     FileDescriptorInputReaderStream inputReaderStream;
     FileDescriptorOutputWriterStream outputWriterStream;
