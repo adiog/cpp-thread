@@ -8,12 +8,4 @@ TEST(ImplicitFutureTestSuite, ObviousImplicitCast)
     int implicitly_casted = implicit_test;
     ASSERT_EQ(implicitly_casted, 42);
 }
-/*
-TEST(ImplicitFutureTestSuite, LessObviousImplicitCast)
-{
-    std::future<int> test = std::async([](){return 42;});
-    implicit_future<int> implicit_test{std::move(test)};
-    ASSERT_EQ(implicit_test, 42);
-}
 
-*/

@@ -1,18 +1,15 @@
 #include <gtest/gtest.h>
-#include <implicit_future>
+#include <CoRoutineTemplate.h>
 
-TEST(ImplicitFutureTestSuite, ObviousImplicitCast)
+TEST(CoRoutine, ObviousCase)
 {
-    std::future<int> test = std::async([](){return 42;});
-    implicit_future<int> implicit_test{std::move(test)};
-    int implicitly_casted = implicit_test;
-    ASSERT_EQ(implicitly_casted, 42);
-}
-
-TEST(ImplicitFutureTestSuite, LessObviousImplicitCast)
-{
-    std::future<int> test = std::async([](){return 42;});
-    implicit_future<int> implicit_test{std::move(test)};
-    ASSERT_EQ(implicit_test, 42);
+    CoRutClass cr;
+    ASSERT_EQ(cr.start(5), 666);
+    ASSERT_EQ(cr.resume(), 0);
+    ASSERT_EQ(cr.resume(), 5);
+    ASSERT_EQ(cr.resume(), 10);
+    ASSERT_EQ(cr.resume(), 15);
+    ASSERT_EQ(cr.resume(), 20);
+    ASSERT_EQ(cr.resume(), 541);
 }
 
